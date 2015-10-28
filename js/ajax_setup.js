@@ -1,7 +1,5 @@
 import $ from 'jquery';
-
-const APP_ID = 'ITqpiqj3kSSimPxJhoFJEDaEs7GNUQ4HldoKnWHw';
-const API_KEY = 'p9rsvcp3YtEB67185YLNkvhdehX2bVhNNa52AxpD';
+import {APP_ID, API_KEY} from './parse_data';
 
 $.ajaxSetup({
   headers: {

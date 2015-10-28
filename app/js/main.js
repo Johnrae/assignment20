@@ -7,17 +7,16 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var APP_ID = 'ITqpiqj3kSSimPxJhoFJEDaEs7GNUQ4HldoKnWHw';
-var API_KEY = 'p9rsvcp3YtEB67185YLNkvhdehX2bVhNNa52AxpD';
+var _parse_data = require('./parse_data');
 
 _jquery2['default'].ajaxSetup({
   headers: {
-    'X-Parse-Application-Id': APP_ID,
-    'X-Parse-REST-API-Key': API_KEY
+    'X-Parse-Application-Id': _parse_data.APP_ID,
+    'X-Parse-REST-API-Key': _parse_data.API_KEY
   }
 });
 
-},{"jquery":13}],2:[function(require,module,exports){
+},{"./parse_data":3,"jquery":13}],2:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -40,10 +39,8 @@ var _router = require('./router');
 
 var _router2 = _interopRequireDefault(_router);
 
-var $app = (0, _jquery2['default'])('app');
+var $app = (0, _jquery2['default'])('.app');
 new _router2['default']($app).start();
-
-console.log('Hello, World');
 
 },{"./ajax_setup":1,"./router":7,"jquery":13,"moment":14,"underscore":15}],3:[function(require,module,exports){
 'use strict';
@@ -53,11 +50,11 @@ Object.defineProperty(exports, '__esModule', {
 });
 var APP_ID = 'ITqpiqj3kSSimPxJhoFJEDaEs7GNUQ4HldoKnWHw';
 var API_KEY = 'p9rsvcp3YtEB67185YLNkvhdehX2bVhNNa52AxpD';
-var APP_URL = 'https://api.parse.com/1/classes/people';
+var URL = 'https://api.parse.com/1/classes/people';
 
 exports.APP_ID = APP_ID;
 exports.API_KEY = API_KEY;
-exports.APP_URL = APP_URL;
+exports.URL = URL;
 
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -100,9 +97,12 @@ var _parse_data = require('../parse_data');
 
 exports['default'] = _backbone2['default'].Collection.extend({
 
-  urlRoot: _parse_data.APP_URL,
+  url: _parse_data.URL,
+
+  model: _person2['default'],
 
   parse: function parse(data) {
+    console.log(data);
     return data.results;
   }
 
@@ -126,7 +126,7 @@ var _parse_data = require('../parse_data');
 
 exports['default'] = _backbone2['default'].Model.extend({
 
-  urlRoot: _parse_data.APP_URL,
+  urlRoot: _parse_data.URL,
 
   idAttribute: 'objectId'
 
@@ -167,6 +167,7 @@ exports['default'] = _backbone2['default'].Router.extend({
 
     this.$el = appElement;
     this.collection = new _resources.People();
+    console.log(this.collection);
 
     this.$el.on('click', '.person-list-item', function (event) {
       var $li = (0, _jquery2['default'])(event.currentTarget);
@@ -201,7 +202,9 @@ exports['default'] = _backbone2['default'].Router.extend({
     var _this2 = this;
 
     this.showSpinner();
+
     this.collection.fetch().then(function () {
+      console.log(_this2.collection);
       _this2.$el.html((0, _views.People)(_this2.collection.toJSON()));
     });
   },
@@ -257,13 +260,14 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 function processData(data) {
+  console.log(data);
   return data.map(function (item) {
-    return '\n      <li class="person-list-item" data-person-id="' + item.objectId + '">\n        ' + item.name + '\n      </li>\n    ';
+    return '\n      <li class="person-list-item" data-person-id="' + item.objectId + '">\n       <span> ' + item.name + ' </span>\n      </li>\n    ';
   }).join('');
 }
 
 exports['default'] = function (data) {
-  return '\n    <div class="people-list">\n      <h1>People</h1>\n      <ul></ul>\n    </div>\n    ';
+  return '\n    <div class="people-list">\n      <h1>People</h1>\n      <ul>' + processData(data) + '</ul>\n    </div>\n    ';
 };
 
 module.exports = exports['default'];

@@ -22,6 +22,7 @@ export default Backbone.Router.extend({
   initialize(appElement) {
     this.$el = appElement;
     this.collection = new PeopleCollection();
+    console.log(this.collection)
 
     this.$el.on('click', '.person-list-item', (event) => {
       let $li = $(event.currentTarget);
@@ -54,7 +55,9 @@ export default Backbone.Router.extend({
 
   showPeople() {
     this.showSpinner();
+
     this.collection.fetch().then(() => {
+      console.log(this.collection)
       this.$el.html(
         PeopleView(
           this.collection.toJSON()
