@@ -5,7 +5,12 @@ export default Backbone.Model.extend({
 
   urlRoot:  URL,
 
-  idAttribute: 'objectId'
+  idAttribute: 'objectId',
+
+  templateData() {
+    let data = this.toJSON();
+    return data;
+  }
 
 
 });

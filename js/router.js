@@ -79,11 +79,7 @@ export default Backbone.Router.extend({
       this.showSpinner();
       person = this.collection.add({objectId: id});
       person.fetch().then(() => {
-        this.$el.html(
-          PersonView(
-            person.templateData()
-          )
-        );
+        this.$el.html(PersonView(person.templateData));
       });
     }
   }

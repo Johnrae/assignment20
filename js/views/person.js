@@ -1,4 +1,4 @@
-export default function(){
+export default function(data){
   return `
     <div class="person">
       <h1>${data.name}<h1>

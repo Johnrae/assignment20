@@ -50,7 +50,7 @@ Object.defineProperty(exports, '__esModule', {
 });
 var APP_ID = 'ITqpiqj3kSSimPxJhoFJEDaEs7GNUQ4HldoKnWHw';
 var API_KEY = 'p9rsvcp3YtEB67185YLNkvhdehX2bVhNNa52AxpD';
-var URL = 'https://api.parse.com/1/classes/people';
+var URL = 'https://api.parse.com/1/classes/People';
 
 exports.APP_ID = APP_ID;
 exports.API_KEY = API_KEY;
@@ -128,7 +128,12 @@ exports['default'] = _backbone2['default'].Model.extend({
 
   urlRoot: _parse_data.URL,
 
-  idAttribute: 'objectId'
+  idAttribute: 'objectId',
+
+  templateData: function templateData() {
+    var data = this.toJSON();
+    return data;
+  }
 
 });
 module.exports = exports['default'];
@@ -220,7 +225,7 @@ exports['default'] = _backbone2['default'].Router.extend({
       this.showSpinner();
       person = this.collection.add({ objectId: id });
       person.fetch().then(function () {
-        _this3.$el.html((0, _views.Person)(person.templateData()));
+        _this3.$el.html((0, _views.Person)(person.templateData));
       });
     }
   }
@@ -279,7 +284,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports["default"] = function () {
+exports["default"] = function (data) {
   return "\n    <div class=\"person\">\n      <h1>" + data.name + "<h1>\n      <p>" + data.phone + "</p>\n      <p>" + data.location + "</p>\n    </div>\n    ";
 };
 
