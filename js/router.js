@@ -8,7 +8,8 @@ import {
 import {
   People as PeopleView, 
   Person as PersonView, 
-  Spinner
+  Spinner,
+  Form as showForm
 } from './views';
 
 export default Backbone.Router.extend({
@@ -16,7 +17,8 @@ export default Backbone.Router.extend({
   routes: {
     ""            : "redirectToPeople",
     "people"      : "showPeople",
-    "person/:id"  : "showPerson"
+    "person/:id"  : "showPerson",
+    "form"        : "showForm"
   },
 
   initialize(appElement) {
@@ -57,7 +59,6 @@ export default Backbone.Router.extend({
     this.showSpinner();
 
     this.collection.fetch().then(() => {
-      console.log(this.collection)
       this.$el.html(
         PeopleView(
           this.collection.toJSON()
@@ -79,10 +80,16 @@ export default Backbone.Router.extend({
       this.showSpinner();
       person = this.collection.add({objectId: id});
       person.fetch().then(() => {
-        this.$el.html(PersonView(person.templateData));
+        this.$el.html(PersonView(person.templateData()));
       });
     }
-  }
+  },
 
+  showForm() {
+    this.showSpinner();
+
+    this.$el.html(showForm());
+
+  },
 
 });

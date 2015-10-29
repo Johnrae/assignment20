@@ -15,6 +15,7 @@ export default function(data){
     <div class="people-list">
       <h1>People</h1>
       <ul>${processData(data)}</ul>
+      <input type="button" value="Add Contact">
     </div>
     `;
 }
